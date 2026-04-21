@@ -12,6 +12,10 @@
 
 	/*Colors*/
 	--clr-brown: hsl(25, 50%, 60%);
+	--clr-yellow: hsl(50, 30%, 85%);
+	--clr-darkyellow: hsl(50, 60%, 45%);
+	--clr-red: hsl(350, 70%, 50%);
+	--clr-green: hsl(150, 100%, 35%);
 }
 
 /* Initial font settings */
@@ -59,10 +63,25 @@ body{
 	background-color: var(--clr-black-lt);
 }
 
+body{
+	display: flex;
+	flex-direction: column;
+}
+
+main{
+	flex: 1;
+	overflow: scroll;
+}
+
+.hide{
+	display: none !important;
+	visibility: hidden !important;
+}
+
 .btn{
-	--btn-txclr: var(--clr-black);
-	--btn-bgclr: var(--clr-gray);
-	--btn-bdclr: var(--clr-black-dk);
+	/* --btn-txclr: ; */
+	/* --btn-bgclr: ; */
+	/* --btn-bdclr: ; */
 
 	/* Display */
 	display: grid;
@@ -72,6 +91,7 @@ body{
 	border-radius: 0.25em;
 	/* Color */
 	color: var(--btn-txclr);
+	fill: var(--btn-txclr);
 	background-color: var(--btn-bgclr);
 	border-color: var(--btn-bdclr, transparent);
 	/* Text */
@@ -149,6 +169,10 @@ MAIN
 
 /*Players*/
 .players__btn{
+	--btn-txclr: var(--clr-black);
+	--btn-bgclr: var(--clr-gray);
+	--btn-bdclr: var(--clr-black-dk);
+
 	place-self: center;
 }
 
@@ -158,3 +182,56 @@ MAIN
 	grid-template-columns: subgrid;
 }
 
+/*Interface*/
+.interface{
+	--inter-bgclr: var(--clr-black);
+	--notes-bgclr: var(--clr-yellow);
+	--notes-bdclr: var(--clr-darkyellow);
+
+	display: flex;
+	place-content: center;
+	gap: 1em;
+	padding: 1em;
+	padding-bottom: 3em;
+	background-color: var(--inter-bgclr);
+}
+
+.controls{
+	display: grid;
+	gap: 0.75em;
+}
+
+.editing{
+	display: grid;
+	place-items: center;
+	margin-left: 2em;
+}
+
+.interface__btn{
+	--btn-txclr: var(--clr-white-lt);
+	--btn-bgclr: var(--clr-gray-dk);
+	--btn-bdclr: var(--clr-gray-lt);
+}
+
+.notes{
+	display: grid;
+	grid-template-rows: repeat(2, 1fr);
+	place-content: center;
+	gap: 0.25em;
+	background-color: var(--notes-bdclr);
+}
+
+.notes__group{
+	display: grid;
+	grid-template-columns: repeat(5, 4em);
+	padding: 0.25em 0.75em;
+	background-color: var(--notes-bgclr);
+}
+
+.notes__btn--check{--btn-txclr: var(--clr-green);}
+.notes__btn--x{--btn-txclr: var(--clr-red);}
+
+.notes__text{
+	font-size: 2em;
+	font-size: bolder;
+}

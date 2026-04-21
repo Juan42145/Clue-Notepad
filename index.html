@@ -11,29 +11,75 @@
 	<script src="index.js"></script>
 </head>
 <body>
-	<main class="clipboard">
-		<img class="clip clip--bg" src="Assets/Clip BG.png">
-		<div class="paper">
-			<section class="section">
-				<button class="btn players__btn">
-					<svg class="icon"><use href="Assets/sprites.svg#Person_Edit"/></svg>
-				</button>
-				<div id="players" class="players"></div>
-			</section>
-			<section class="section">
-				<div class="section__title">Suspects</div>
-				<div id="suspects" class="section__grid"></div>
-			</section>
-			<section class="section">
-				<div class="section__title">Weapons</div>
-				<div id="weapons" class="section__grid"></div>
-			</section>
-			<section class="section">
-				<div class="section__title">Rooms</div>
-				<div id="rooms" class="section__grid"></div>
-			</section>
+	<main>
+		<div class="clipboard">
+			<img class="clip clip--bg" src="Assets/Clip BG.png">
+			<div class="paper">
+				<section class="section">
+					<button class="btn players__btn">
+						<svg class="icon"><use href="Assets/sprites.svg#Person_Edit"/></svg>
+					</button>
+					<div id="players" class="players"></div>
+				</section>
+				<section class="section">
+					<div class="section__title">Suspects</div>
+					<div id="suspects" class="section__grid"></div>
+				</section>
+				<section class="section">
+					<div class="section__title">Weapons</div>
+					<div id="weapons" class="section__grid"></div>
+				</section>
+				<section class="section">
+					<div class="section__title">Rooms</div>
+					<div id="rooms" class="section__grid"></div>
+				</section>
+			</div>
+			<img class="clip" src="Assets/Clip.png">
 		</div>
-		<img class="clip" src="Assets/Clip.png">
 	</main>
+	<footer class="interface">
+		<div class="controls">
+			<button class="btn interface__btn">
+				<svg class="icon"><use href="Assets/sprites.svg#Circle"/></svg>
+			</button>
+			<button class="btn interface__btn">
+				<svg class="icon"><use href="Assets/sprites.svg#Cross"/></svg>
+			</button>
+		</div>
+		<div class="editing">
+			<button class="btn interface__btn">
+				<svg class="icon"><use href="Assets/sprites.svg#Edit_On"/></svg>
+			</button>
+			<button class="btn interface__btn hide">
+				<svg class="icon"><use href="Assets/sprites.svg#Edit_Off"/></svg>
+			</button>
+		</div>
+		<div class="notes">
+			<div class="notes__group">
+				<button class="btn notes__btn--check">
+					<svg class="icon"><use href="Assets/sprites.svg#Check"/></svg>
+				</button>
+				<button class="btn notes__btn--x">
+					<svg class="icon"><use href="Assets/sprites.svg#X"/></svg>
+				</button>
+				<button class="btn">
+					<svg class="icon"><use href="Assets/sprites.svg#?"/></svg>
+				</button>
+				<button class="btn">
+					<svg class="icon"><use href="Assets/sprites.svg#!"/></svg>
+				</button>
+				<button class="btn">
+					<svg class="icon"><use href="Assets/sprites.svg#Delete"/></svg>
+				</button>
+			</div>
+			<div class="notes__group">
+				<button class="btn"><div class="notes__text">1</div></button>
+				<button class="btn"><div class="notes__text">2</div></button>
+				<button class="btn"><div class="notes__text">3</div></button>
+				<button class="btn"><div class="notes__text">4</div></button>
+				<button class="btn"><div class="notes__text">5</div></button>
+			</div>
+		</div>
+	</footer>
 </body>
 </html>
