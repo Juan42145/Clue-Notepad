@@ -71,6 +71,8 @@ body{
 main{
 	flex: 1;
 	overflow: scroll;
+	display: grid;
+	place-content: start center;
 }
 
 .hide{
@@ -143,8 +145,9 @@ MAIN
 
 .paper{
 	display: grid;
-	grid-template-columns: 1fr repeat(6, 3em);
+	grid-template-columns: max-content repeat(6, 3em);
 	place-content: start;
+	row-gap: 0.5em;
 	padding: 1em 0.5em;
 	padding-top: 2.5em;
 	background-color: var(--paper-bgclr);
@@ -160,20 +163,21 @@ MAIN
 .section__title{
 	font-size: 1.6em;
 	grid-column: 1/-1;
-	margin: 0.25em;
-	margin-left: 0;
+	margin-bottom: 0.1em;
 	padding: 0.1em;
-	background-color: var(--title-bgclr);
+	background-image: linear-gradient(to right, var(--title-bgclr) 50%, transparent 90%);
 	font-weight: bolder;
 }
 
 /*Players*/
 .players__btn{
-	--btn-txclr: var(--clr-black);
-	--btn-bgclr: var(--clr-gray);
-	--btn-bdclr: var(--clr-black-dk);
+	--btn-txclr: var(--clr-black-lt);
+	--btn-bgclr: var(--clr-white-dk);
+	--btn-bdclr: var(--clr-black-lt);
 
+	font-size: 0.75em;
 	place-self: center;
+	padding: 0 1em;
 }
 
 .players{
@@ -182,7 +186,73 @@ MAIN
 	grid-template-columns: subgrid;
 }
 
-/*Interface*/
+/*Grid*/
+.section__grid{
+	--grid-bdclr: var(--clr-black-dk);
+	--row-bgclr: hsl(0, 0%, 95%);
+}
+
+.section__grid, .row{
+	display: grid;
+	grid-column: 1/-1;
+	grid-template-columns: subgrid;
+}
+
+.row:nth-child(2n){
+	background-color: var(--row-bgclr);
+}
+
+.cell{
+	display: grid;
+	height: 2.2em;
+	border: 0.1em solid var(--grid-bdclr);
+	border-left-width: 0;
+	border-top-width: 0;
+}
+
+.row:first-child > .cell{
+	border-top-width: 0.1em;
+}
+
+.cell--name{
+	place-content: center start;
+	padding: 0 0.5em;
+  border-image-source: linear-gradient(to left, var(--grid-bdclr), transparent);
+  border-image-slice: 1;
+	font-weight: bolder;
+}
+
+.cell__title{
+	font-size: 1.3em;
+	font-style: italic;
+}
+
+.cell__block{
+	position: relative;
+	display: grid;
+	place-content: center;
+}
+
+.block__icon{
+	height: 1.5em;
+	aspect-ratio: 1;
+}
+
+.block__notes{
+	font-size: 0.8em;
+	position: absolute;
+	bottom: 0;
+	display: grid;
+	grid-auto-flow: column;
+	width: 100%;
+	padding: 0 0.15em;
+	line-height: 0.9;
+}
+
+/*========================================
+INTERFACE
+*/
+
 .interface{
 	--inter-bgclr: var(--clr-black);
 	--notes-bgclr: var(--clr-yellow);
