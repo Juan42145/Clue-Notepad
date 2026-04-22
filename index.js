@@ -47,17 +47,14 @@ let rooms = ['Ballroom', 'Billiard Room', 'Conservatory', 'Dining Room', 'Hall',
 let players = []
 
 window.addEventListener('load',() => {
-	renderCards()
+	renderRows('suspects', suspects)
+	renderRows('weapons', weapons)
+	renderRows('rooms', rooms)
+	renderPlayers()
 	forceCSS()
 })
 
-function renderCards(){
-	renderSection('suspects', suspects)
-	renderSection('weapons', weapons)
-	renderSection('rooms', rooms)
-}
-
-function renderSection(id, list){
+function renderRows(id, list){
 	const Grid = document.getElementById(id)
 	
 	list.forEach(item => {
@@ -90,4 +87,34 @@ function createIcon(parent){
 	parent.append(SvgElement)
 }
 
-function renderPlayers(){}
+//Players
+function renderPlayers(){
+	const Cont = document.getElementById('players')
+	Cont.textContent = ""
+
+	players.forEach(player => {
+		if (!player) return
+		const Player = createDiv(Cont, 'player')
+		createTxt(Player, 'div', 'player__text', player)
+	})
+}
+
+/**--PLAYERS MENU-- */
+function openMenu(){
+	//Initialize inputs
+	for (let i = 0; i < 6; i++) {
+		document.getElementById('p'+(1+i)).value = players[i] || ""
+	}
+
+	document.getElementById('edit-players').showModal();
+}
+
+function handleForm(form){
+	const formData = new FormData(form);
+	const data = Array.from(formData.values());
+
+	players = data.sort((a, b) => (a === '') - (b === ''));//Move empty spots
+
+	renderPlayers()
+	document.getElementById('edit-players').close();
+}

@@ -16,7 +16,7 @@
 			<img class="clip clip--bg" src="Assets/Clip BG.png">
 			<div class="paper">
 				<section class="section">
-					<button class="btn players__btn">
+					<button class="btn players__btn" onclick="openMenu()">
 						<svg class="icon"><use href="Assets/sprites.svg#Person_Edit"/></svg>
 					</button>
 					<div id="players" class="players"></div>
@@ -81,5 +81,17 @@
 			</div>
 		</div>
 	</footer>
+
+	<dialog id="edit-players" onclick="this.close()">
+		<form class="menu" onclick="event.stopPropagation()" onsubmit="event.preventDefault(); handleForm(this)">
+			<input class="menu__input" type="text" maxlength="3" name="1" id="p1" placeholder="Player 1 Initials">
+			<input class="menu__input" type="text" maxlength="3" name="2" id="p2" placeholder="Player 2 Initials">
+			<input class="menu__input" type="text" maxlength="3" name="3" id="p3" placeholder="Player 3 Initials">
+			<input class="menu__input" type="text" maxlength="3" name="4" id="p4" placeholder="Player 4 Initials">
+			<input class="menu__input" type="text" maxlength="3" name="5" id="p5" placeholder="Player 5 Initials">
+			<input class="menu__input" type="text" maxlength="3" name="6" id="p6" placeholder="Player 6 Initials">
+			<button class="btn menu__submit" type="submit">Submit</button>
+		</form>
+	</dialog>
 </body>
 </html>

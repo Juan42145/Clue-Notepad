@@ -147,7 +147,7 @@ MAIN
 	display: grid;
 	grid-template-columns: max-content repeat(6, 3em);
 	place-content: start;
-	row-gap: 0.5em;
+	row-gap: 0.2em;
 	padding: 1em 0.5em;
 	padding-top: 2.5em;
 	background-color: var(--paper-bgclr);
@@ -181,9 +181,28 @@ MAIN
 }
 
 .players{
+	--player-bgclr: var(--clr-gray-dk);
+	--player-txclr: var(--clr-white-lt);
+	--player-bdclr: var(--clr-black);
+
 	grid-column: 2/-1;
 	display: grid;
 	grid-template-columns: subgrid;
+}
+
+.player{
+	display: grid;
+	place-content: center;
+	border: 0.1em solid var(--player-bdclr);
+	border-left-width: 0;
+	overflow: hidden;
+	background-color: var(--player-bgclr);
+	color: var(--player-txclr);
+	font-weight: bolder;
+}
+
+.player:first-child{
+	border-left-width: 0.1em;
 }
 
 /*Grid*/
@@ -304,4 +323,45 @@ INTERFACE
 .notes__text{
 	font-size: 2em;
 	font-size: bolder;
+}
+
+/*========================================
+DIALOG
+*/
+
+dialog{
+	margin: auto;
+}
+
+dialog::backdrop{
+	background-color: rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(5px);
+}
+
+.menu{
+	--menu-bgclr: var(--clr-brown);
+	--input-bgclr: var(--clr-white);
+	--menu-btn-bgclr: var(--clr-black);
+	--menu-btn-txclr: var(--clr-white);
+
+	display: grid;
+	padding: 3em;
+	gap: 1em;
+	border-radius: 0.5em;
+	background-color: var(--menu-bgclr);
+}
+
+.menu__input{
+	padding: 1em;
+	border-radius: 0.25em;
+	background-color: var(--input-bgclr);
+}
+
+.menu__submit{
+	--btn-bgclr: var(--menu-btn-bgclr);
+	--btn-txclr: var(--menu-btn-txclr);
+
+	font-size: 1.6em;
+	padding: 0.5em;
+	margin-top: 1em;
 }
