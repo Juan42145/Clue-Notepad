@@ -57,25 +57,19 @@ window.addEventListener('load',() => {
 function renderRows(id, list){
 	const Grid = document.getElementById(id)
 	
-	list.forEach(item => {
-		const Row = createDiv(Grid, 'row')
+	list.forEach((item, ri) => {
+		const Row = createDiv(Grid, 'row', {'id': id[0]+'-r'+ri})
 
 		const Name = createDiv(Row, 'cell cell--name')
+		Name.addEventListener('click', () => selectRow(Row, Name))
 		createTxt(Name, 'div', 'cell__title', item)
 		for (let i = 0; i < 6; i++){
-			const Cell = createDiv(Row, 'cell')
+			const Cell = createDiv(Row, 'cell', {'data-col':i})
+			Cell.addEventListener('click', () => selectCell(Cell))
 
-			const Block = createDiv(Cell, 'cell__block', {'data-col':i})
-			Block.addEventListener('click', () => selectCell(Block))
-
+			const Block = createDiv(Cell, 'cell__block')
 			createIcon(Block)
 			const Notes = createDiv(Block, 'block__notes js-notes')
-			//test
-			// createTxt(Notes, 'div', 'block__note', 1)
-			// createTxt(Notes, 'div', 'block__note', 2)
-			// createTxt(Notes, 'div', 'block__note', 3)
-			// createTxt(Notes, 'div', 'block__note', 4)
-			// createTxt(Notes, 'div', 'block__note', 5)
 		}
 	})
 }
@@ -92,11 +86,18 @@ function createIcon(parent){
 function renderPlayers(){
 	const Cont = document.getElementById('players')
 	Cont.textContent = ""
+	const Style = document.documentElement.style;
 
-	players.forEach(player => {
-		if (!player) return
+	players.forEach((player, i) => {
+		if (!player) {
+			Style.removeProperty('--c'+i);
+			return
+		}
 		const Player = createDiv(Cont, 'player')
 		createTxt(Player, 'div', 'player__text', player)
+		Player.addEventListener('click', () => highlightCol(i))
+		// Add column styling
+		Style.setProperty('--c'+i, 'var(--grid)'); 
 	})
 }
 
@@ -133,6 +134,11 @@ function selectNote(btn, code){
 		btn.classList.add('active')
 		op = code
 	}
+}
+
+function selectRow(row, cell){
+	//if no control selected
+	highlightRow(row)
 }
 
 function selectCell(cell){
@@ -205,3 +211,33 @@ function processOrder(col){
 	})
 }
 
+/**--HIGHLIGHTING-- */
+let hl = {'col':'','s':'','w':'','r':'',};
+
+function highlightCol(col){
+	const Style = document.documentElement.style;
+	
+	//Undo previous highlight
+	if (hl.col !== '') Style.removeProperty('--cb'+hl.col);
+	
+	if (col === hl.col) hl.col = ''
+	else{
+		Style.setProperty('--cb'+col, 'var(--highlight)'); 
+		hl.col = col
+	}
+}
+
+function highlightRow(rowEl){
+	console.log(rowEl)
+	let [key, row] = rowEl.id.split('-r')
+	
+	//Undo previous highlight
+	if (hl[key] !== '')
+		document.getElementById(key+'-r'+hl[key]).classList.remove('row--hl')
+	
+	if (row === hl[key]) hl[key] = ''
+	else{
+		document.getElementById(key+'-r'+row).classList.add('row--hl')
+		hl[key] = row
+	}
+}
