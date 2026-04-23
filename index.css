@@ -257,16 +257,25 @@ MAIN
 	aspect-ratio: 1;
 }
 
+.icon--green{ fill: var(--clr-green);}
+.icon--red{ fill: var(--clr-red);}
+
 .block__notes{
 	font-size: 0.8em;
 	position: absolute;
 	bottom: 0;
 	display: grid;
-	grid-auto-flow: column;
+	grid-template-columns: repeat(5, 1fr);
 	width: 100%;
 	padding: 0 0.15em;
 	line-height: 0.9;
 }
+
+.note--1{ grid-column: 1;}
+.note--2{ grid-column: 2;}
+.note--3{ grid-column: 3;}
+.note--4{ grid-column: 4;}
+.note--5{ grid-column: 5;}
 
 /*========================================
 INTERFACE
@@ -276,6 +285,8 @@ INTERFACE
 	--inter-bgclr: var(--clr-black);
 	--notes-bgclr: var(--clr-yellow);
 	--notes-bdclr: var(--clr-darkyellow);
+
+	--active-bdclr: var(--clr-black);
 
 	display: flex;
 	place-content: center;
@@ -323,6 +334,10 @@ INTERFACE
 .notes__text{
 	font-size: 2em;
 	font-size: bolder;
+}
+
+.active{
+	--btn-bdclr: var(--active-bdclr);
 }
 
 /*========================================

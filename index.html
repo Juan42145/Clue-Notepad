@@ -56,28 +56,38 @@
 		</div>
 		<div class="notes">
 			<div class="notes__group">
-				<button class="btn notes__btn--check">
+				<button class="btn notes__btn--check" onclick="selectNote(this,'check')">
 					<svg class="icon"><use href="Assets/sprites.svg#Check"/></svg>
 				</button>
-				<button class="btn notes__btn--x">
+				<button class="btn notes__btn--x" onclick="selectNote(this,'x')">
 					<svg class="icon"><use href="Assets/sprites.svg#X"/></svg>
 				</button>
-				<button class="btn">
+				<button class="btn" onclick="selectNote(this,'?')">
 					<svg class="icon"><use href="Assets/sprites.svg#?"/></svg>
 				</button>
-				<button class="btn">
+				<button class="btn" onclick="selectNote(this,'!')">
 					<svg class="icon"><use href="Assets/sprites.svg#!"/></svg>
 				</button>
-				<button class="btn">
+				<button class="btn" onclick="selectNote(this,'delete')">
 					<svg class="icon"><use href="Assets/sprites.svg#Delete"/></svg>
 				</button>
 			</div>
 			<div class="notes__group">
-				<button class="btn"><div class="notes__text">1</div></button>
-				<button class="btn"><div class="notes__text">2</div></button>
-				<button class="btn"><div class="notes__text">3</div></button>
-				<button class="btn"><div class="notes__text">4</div></button>
-				<button class="btn"><div class="notes__text">5</div></button>
+				<button class="btn" onclick="selectNote(this,1)">
+					<div class="notes__text">1</div>
+				</button>
+				<button class="btn" onclick="selectNote(this,2)">
+					<div class="notes__text">2</div>
+				</button>
+				<button class="btn" onclick="selectNote(this,3)">
+					<div class="notes__text">3</div>
+				</button>
+				<button class="btn" onclick="selectNote(this,4)">
+					<div class="notes__text">4</div>
+				</button>
+				<button class="btn" onclick="selectNote(this,5)">
+					<div class="notes__text">5</div>
+				</button>
 			</div>
 		</div>
 	</footer>

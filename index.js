@@ -64,10 +64,12 @@ function renderRows(id, list){
 		createTxt(Name, 'div', 'cell__title', item)
 		for (let i = 0; i < 6; i++){
 			const Cell = createDiv(Row, 'cell')
-			const Block = createDiv(Cell, 'cell__block')
+
+			const Block = createDiv(Cell, 'cell__block', {'data-col':i})
+			Block.addEventListener('click', () => selectCell(Block))
 
 			createIcon(Block)
-			const Notes = createDiv(Block, 'block__notes')
+			const Notes = createDiv(Block, 'block__notes js-notes')
 			//test
 			// createTxt(Notes, 'div', 'block__note', 1)
 			// createTxt(Notes, 'div', 'block__note', 2)
@@ -82,7 +84,6 @@ function createIcon(parent){
 	const SvgElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
 	const UseElement = document.createElementNS('http://www.w3.org/2000/svg', 'use')
 	SvgElement.setAttribute('class', 'block__icon')
-	UseElement.setAttribute('href', '/Assets/sprites.svg#')
 	SvgElement.append(UseElement)
 	parent.append(SvgElement)
 }
@@ -118,3 +119,79 @@ function handleForm(form){
 	renderPlayers()
 	document.getElementById('edit-players').close();
 }
+
+/**--NOTES-- */
+let op
+
+function selectNote(btn, code){
+	if (btn.classList.contains('active')){
+		btn.classList.remove('active')
+		op = ''
+	} else{
+		let active = document.querySelector('.active')
+		if (active) active.classList.remove('active')
+		btn.classList.add('active')
+		op = code
+	}
+}
+
+function selectCell(cell){
+	const COL = cell.dataset.col
+	//if edit on
+	if (!op) return //None
+	if (isNaN(op)){ //Icons
+		const Icon = cell.querySelector('use')
+		if (op === 'check') setIcon(Icon, 'Check', 'icon--green')
+		if (op === 'x') setIcon(Icon, 'X', 'icon--red')
+		if (op === '?') setIcon(Icon, '?')
+		if (op === '!') setIcon(Icon, '!')
+		if (op === 'delete') setIcon(Icon)
+	} else{ //Numbers
+		const Notes = cell.querySelector('.js-notes')
+		
+		const Note = Notes.querySelector(`[data-note="${op}"]`)
+		if(Note) Note.remove()
+		else createTxt(Notes, 'div', '', op, {'data-note':op})
+		
+		processOrder(COL)
+	}
+}
+
+function setIcon(element, name, cls){
+	if(name) element.setAttribute('href', 'Assets/sprites.svg#' + name)
+	else element.removeAttribute('href')
+
+	if (cls) element.setAttribute('class', cls)
+	else element.removeAttribute('class')
+}
+
+function processOrder(col){
+	const buckets = [[1],[2],[3],[4],[5]]
+	const numIndex = Object.fromEntries(buckets.map(n => [n, n-1]));
+
+	const List = document.querySelectorAll(`[data-col="${col}"] .js-notes:has(*)`)
+	List.forEach(group => {
+		if (group.children.length == 1) return
+		//Set index of first item as group index
+		let gIndex = numIndex[group.children[0].dataset.note]
+		Array.from(group.children).forEach(item => {
+			let i = numIndex[item.dataset.note]
+			if (i == gIndex) return //If already pointed to the same bucket do nothing
+			//Merge buckets
+			buckets[gIndex] = buckets[gIndex].concat(buckets[i])
+			buckets[i] = []
+			//Point to new bucket
+			numIndex[item.dataset.note] = gIndex
+		})
+	})
+
+	buckets.forEach(bucket => {
+		bucket.forEach((num, i) => {
+			let notes = document.querySelectorAll(`[data-col="${col}"] [data-note="${num}"]`)
+			notes.forEach(element => {
+				element.className = 'note--'+(1+i)
+			})
+		})
+	})
+}
+
