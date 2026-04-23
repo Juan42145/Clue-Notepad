@@ -42,8 +42,11 @@ function forceCSS(){
 
 /**--PAGE-- */
 let suspects = ['Green', 'Mustard', 'Peacock', 'Plum', 'Scarlett', 'White']
-let weapons = ['Candlestick', 'Dagger', 'Lead Pipe', 'Revolver', 'Rope', 'Wrench']
-let rooms = ['Ballroom', 'Billiard Room', 'Conservatory', 'Dining Room', 'Hall', 'Kitchen', 'Library', 'Lounge', 'Study']
+let weapons = [
+	'Candlestick', 'Dagger', 'Lead Pipe', 'Revolver', 'Rope', 'Wrench']
+let rooms = [
+	'Ballroom', 'Billiard Room', 'Conservatory','Dining Room',
+	'Hall', 'Kitchen', 'Library', 'Lounge', 'Study']
 let players = []
 
 window.addEventListener('load',() => {
@@ -75,11 +78,11 @@ function renderRows(id, list){
 }
 
 function createIcon(parent){
-	const SvgElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-	const UseElement = document.createElementNS('http://www.w3.org/2000/svg', 'use')
-	SvgElement.setAttribute('class', 'block__icon')
-	SvgElement.append(UseElement)
-	parent.append(SvgElement)
+	const SvgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+	const UseEl = document.createElementNS('http://www.w3.org/2000/svg', 'use')
+	SvgEl.setAttribute('class', 'block__icon')
+	SvgEl.append(UseEl)
+	parent.append(SvgEl)
 }
 
 //Players
@@ -184,15 +187,16 @@ function setIcon(element, name, cls){
 function processOrder(col){
 	const buckets = [[1],[2],[3],[4],[5]]
 	const numIndex = Object.fromEntries(buckets.map(n => [n, n-1]));
+	const colQuery = `[data-col="${col}"]`
 
-	const List = document.querySelectorAll(`[data-col="${col}"] .js-notes:has(*)`)
+	const List = document.querySelectorAll(colQuery+' .js-notes:has(*)')
 	List.forEach(group => {
 		if (group.children.length == 1) return
 		//Set index of first item as group index
 		let gIndex = numIndex[group.children[0].dataset.note]
 		Array.from(group.children).forEach(item => {
 			let i = numIndex[item.dataset.note]
-			if (i == gIndex) return //If already pointed to the same bucket do nothing
+			if (i == gIndex) return //If pointing to the same bucket do nothing
 			//Merge buckets
 			buckets[gIndex] = buckets[gIndex].concat(buckets[i])
 			buckets[i] = []
@@ -203,7 +207,7 @@ function processOrder(col){
 
 	buckets.forEach(bucket => {
 		bucket.forEach((num, i) => {
-			let notes = document.querySelectorAll(`[data-col="${col}"] [data-note="${num}"]`)
+			let notes = document.querySelectorAll(colQuery+` [data-note="${num}"]`)
 			notes.forEach(element => {
 				element.className = 'note--'+(1+i)
 			})
