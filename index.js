@@ -125,23 +125,37 @@ function handleForm(form){
 }
 
 /**--NOTES-- */
-let op
+let op = '', control = ''
 
 function selectNote(btn, code){
-	if (btn.classList.contains('active')){
-		btn.classList.remove('active')
-		op = ''
-	} else{
-		let active = document.querySelector('.active')
-		if (active) active.classList.remove('active')
+	if (op !== '') document.querySelector('.active').classList.remove('active')
+	
+	if (op === code) op = ''
+	else{
 		btn.classList.add('active')
 		op = code
 	}
 }
 
+function selectControl(btn, code){
+	if (control !== '')
+		document.querySelector('.selected').classList.remove('selected')
+	
+	if (control === code) control = ''
+	else{
+		btn.classList.add('selected')
+		control = code
+	}
+}
+
 function selectRow(row, cell){
-	//if no control selected
-	highlightRow(row)
+	if (control === '') highlightRow(row)
+	else{
+		if(control === 's') cell.classList.toggle('cell--strike')
+		else if(control === 'c') cell.classList.toggle('cell--circle')
+		
+		selectControl(null, control)//Clear control
+	}
 }
 
 function selectCell(cell){
@@ -232,7 +246,6 @@ function highlightCol(col){
 }
 
 function highlightRow(rowEl){
-	console.log(rowEl)
 	let [key, row] = rowEl.id.split('-r')
 	
 	//Undo previous highlight
