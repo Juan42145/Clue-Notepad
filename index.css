@@ -57,9 +57,10 @@ BASE
 
 html,
 body{
-	overflow: hidden;
 	width: 100%;
 	height: 100%;
+	overflow: hidden;
+	touch-action: manipulation;
 	background-color: var(--clr-black-lt);
 }
 
@@ -105,8 +106,8 @@ main{
 }
 
 .icon{
-	width: 3em;
-	height: 3em;
+	width: 2em;
+	height: 2em;
 }
 
 /*========================================
@@ -122,25 +123,28 @@ MAIN
 	position: relative;
 	margin: 1.5em 1em;
 	margin-top: 2em;
-	padding: 0.75em;
-	padding-top: 1.5em;
+	padding: 0.75em 1.5em;
+	padding-top: 1.2em;
 	border-radius: 1em;
 	box-shadow: 0 0 1em rgba(0,0,0,.8);
 	background-color: var(--clip-bgclr);
 }
 
 .clip{
-	--width: 20em;
+	--width: 16em;
 
 	position: absolute;
 	top: -1em;
 	left: calc(50% - var(--width)/2);
 	width: var(--width);
+}
+
+.clip:not(.clip--bg){
 	filter: drop-shadow(0 0.2em 0.2em rgba(0, 0, 0));
 }
 
 .clip--bg{
-	clip-path: rect(0 100% 2.5em 0);
+	clip-path: rect(0 100% 2.2em 0);
 }
 
 .paper{
@@ -148,8 +152,8 @@ MAIN
 	grid-template-columns: max-content repeat(6, 3em);
 	place-content: start;
 	row-gap: 0.2em;
-	padding: 1em 0.5em;
-	padding-top: 2.5em;
+	padding: 1em;
+	padding-top: 2em;
 	background-color: var(--paper-bgclr);
 	color: var(--paper-txclr);
 }
@@ -175,7 +179,6 @@ MAIN
 	--btn-bgclr: var(--clr-white-dk);
 	--btn-bdclr: var(--clr-black-lt);
 
-	font-size: 0.75em;
 	place-self: center;
 	padding: 0 1em;
 }
@@ -223,7 +226,7 @@ MAIN
 
 .cell{
 	display: grid;
-	height: 2.2em;
+	height: 2.4em;
 	border: 0.1em solid var(--grid-bdclr);
 	border-left-width: 0;
 	border-top-width: 0;
@@ -253,7 +256,7 @@ MAIN
 }
 
 .block__icon{
-	height: 1.5em;
+	height: 2em;
 	aspect-ratio: 1;
 }
 
@@ -266,8 +269,10 @@ MAIN
 	bottom: 0;
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
+	grid-auto-flow: dense;
 	width: 100%;
 	padding: 0 0.15em;
+	background-color: rgba(255, 255, 255, 0.75);
 	line-height: 0.9;
 }
 
@@ -290,7 +295,7 @@ INTERFACE
 
 	display: flex;
 	place-content: center;
-	gap: 1em;
+	gap: 0.5em;
 	padding: 1em;
 	padding-bottom: 3em;
 	background-color: var(--inter-bgclr);
@@ -298,19 +303,41 @@ INTERFACE
 
 .controls{
 	display: grid;
-	gap: 0.75em;
-}
-
-.editing{
-	display: grid;
-	place-items: center;
-	margin-left: 2em;
+	gap: 0.25em;
 }
 
 .interface__btn{
-	--btn-txclr: var(--clr-white-lt);
+	--btn-txclr: var(--clr-white);
 	--btn-bgclr: var(--clr-gray-dk);
-	--btn-bdclr: var(--clr-gray-lt);
+	--btn-bdclr: var(--clr-gray);
+
+	aspect-ratio: 1;
+}
+
+.selected{
+	--btn-txclr: var(--clr-gray-dk);
+	--btn-bgclr: var(--clr-white);
+	--btn-bdclr: var(--clr-gray);
+}
+
+.editing{
+	font-size: 1.5em;
+
+	display: grid;
+	place-items: center;
+	margin-left: 1.5em;
+}
+
+.edit__btn--on{
+	--btn-txclr: var(--clr-darkyellow);
+	--btn-bgclr: var(--clr-yellow);
+	--btn-bdclr: var(--clr-darkyellow);
+}
+
+.edit__btn--off{
+	--btn-txclr: var(--clr-yellow);
+	--btn-bgclr: var(--clr-darkyellow);
+	--btn-bdclr: var(--clr-yellow);
 }
 
 .notes{
@@ -332,8 +359,8 @@ INTERFACE
 .notes__btn--x{--btn-txclr: var(--clr-red);}
 
 .notes__text{
-	font-size: 2em;
-	font-size: bolder;
+	font-size: 1.6em;
+	font-weight: bolder;
 }
 
 .active{
