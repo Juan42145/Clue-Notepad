@@ -126,8 +126,31 @@ function handleForm(form){
 
 /**--NOTES-- */
 let op = '', control = ''
+let edit = false, curCell = null;
+
+//Interface
+function setEdit(btn, bool){
+	btn.classList.add('hide')
+	let showId = bool ? 'off' : 'on'
+	document.getElementById('edit-'+showId).classList.remove('hide')
+
+	if (bool){
+		selectCell(curCell) //reset cell highlight
+		document.getElementById('notes').classList.remove('disabled')
+	} else{
+		document.getElementById('notes').classList.add('disabled')
+		selectNote(null, op) //reset note selection
+	}
+
+	edit = bool
+}
 
 function selectNote(btn, code){
+	if(!edit) {
+		setCell(curCell, code)
+		return
+	}
+
 	if (op !== '') document.querySelector('.active').classList.remove('active')
 	
 	if (op === code) op = ''
@@ -148,43 +171,46 @@ function selectControl(btn, code){
 	}
 }
 
+//Interactions
 function selectRow(row, cell){
 	if (control === '') highlightRow(row)
 	else{
 		if(control === 's') cell.classList.toggle('cell--strike')
 		else if(control === 'c') cell.classList.toggle('cell--circle')
 		
-		selectControl(null, control)//Clear control
+		if (!edit) selectControl(null, control)//Clear control
 	}
 }
 
 function selectCell(cell){
-	const COL = cell.dataset.col
-	//if edit on
-	if (!op) return //None
+	edit ? setCell(cell, op) : highlightCell(cell)
+}
 
-	if (op === 'Delete'){ //Delete
+function setCell(cell, action){
+	if (!action) return //None
+	const COL = cell.dataset.col
+
+	if (action === 'Delete'){ //Delete
 		setIcon(cell.querySelector('use'))
 		cell.querySelector('.js-notes').textContent = ""
 		processOrder(COL)
 	}
-	else if (isNaN(op)){ //Icons
+	else if (isNaN(action)){ //Icons
 		const Icon = cell.querySelector('use')
 		let code = Icon.href.baseVal.split('#')[1]
-		if (op === code) setIcon(Icon) //Delete icon when tapped again
+		if (action === code) setIcon(Icon) //Delete icon when tapped again
 		else{
 			let style = ''
-			if (op === 'Check') style = 'icon--green'
-			if (op === 'X') style = 'icon--red'
-			setIcon(Icon, op, style)
+			if (action === 'Check') style = 'icon--green'
+			if (action === 'X') style = 'icon--red'
+			setIcon(Icon, action, style)
 		}
-	}
-	else{ //Numbers
+	} else{ //Numbers
 		const Notes = cell.querySelector('.js-notes')
 		
-		const Note = Notes.querySelector(`[data-note="${op}"]`)
+		const Note = Notes.querySelector(`[data-note="${action}"]`)
 		if(Note) Note.remove()
-		else createTxt(Notes, 'div', '', op, {'data-note':op})
+		else createTxt(Notes, 'div', '', action, {'data-note':action})
 		
 		processOrder(COL)
 	}
@@ -256,5 +282,20 @@ function highlightRow(rowEl){
 	else{
 		document.getElementById(key+'-r'+row).classList.add('row--hl')
 		hl[key] = row
+	}
+}
+
+function highlightCell(cell){
+	if (curCell !== null)
+		document.querySelector('.highlight').classList.remove('highlight')
+
+	if (cell === curCell){
+		curCell = null
+		document.getElementById('notes').classList.add('disabled')
+	}
+	else{
+		cell.classList.add('highlight')
+		curCell = cell
+		document.getElementById('notes').classList.remove('disabled')
 	}
 }

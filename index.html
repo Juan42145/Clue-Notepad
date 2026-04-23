@@ -47,14 +47,14 @@
 			</button>
 		</div>
 		<div class="editing">
-			<button class="btn edit__btn--on">
+			<button id="edit-on" class="btn edit__btn--on" onclick="setEdit(this,true)">
 				<svg class="icon"><use href="Assets/sprites.svg#Edit_On"/></svg>
 			</button>
-			<button class="btn edit__btn--off hide">
+			<button id="edit-off" class="btn edit__btn--off hide" onclick="setEdit(this,false)">
 				<svg class="icon"><use href="Assets/sprites.svg#Edit_Off"/></svg>
 			</button>
 		</div>
-		<div class="notes">
+		<div id="notes" class="notes disabled">
 			<div class="notes__group">
 				<button class="btn notes__btn--check" onclick="selectNote(this,'Check')">
 					<svg class="icon"><use href="Assets/sprites.svg#Check"/></svg>

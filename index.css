@@ -15,8 +15,10 @@
 	--clr-brown: hsl(25, 50%, 60%);
 	--clr-yellow: hsl(50, 30%, 85%);
 	--clr-darkyellow: hsl(50, 60%, 45%);
-	--clr-red: hsl(350, 70%, 50%);
+	--clr-red: hsl(0, 70%, 50%);
 	--clr-green: hsl(150, 100%, 35%);
+	--clr-blue: hsl(200, 100%, 50%);
+	--clr-magenta: hsl(340, 70%, 50%);
 
 	/*Variables*/
 	--highlight: var(--clr-lightbrown);
@@ -222,8 +224,13 @@ MAIN
 /*Grid*/
 .section__grid{
 	--row-bgclr: hsl(0, 0%, 95%);
+
 	--grid-bdclr: var(--grid);
 	--grid-bdclr-default: var(--clr-white-dk);
+
+	--cell-hl-bgclr: var(--clr-black-lt);
+	--cell-hl-txclr: var(--clr-white-lt);
+	--cell-hl-bdclr: var(--clr-blue);
 }
 
 .section__grid, .row{
@@ -251,6 +258,16 @@ MAIN
 
 .row:first-child > .cell{
 	border-top-width: 0.1em;
+}
+
+.highlight{
+	outline: 0.2em var(--cell-hl-bdclr) solid;
+	background-color: var(--cell-hl-bgclr);
+	z-index: 1;
+}
+
+.highlight .cell__block{
+	fill: var(--cell-hl-txclr);
 }
 
 [data-col="0"]{ --bd-color: var(--c0); --bg-color: var(--cb0); }
@@ -327,6 +344,10 @@ INTERFACE
 	--notes-bgclr: var(--clr-yellow);
 	--notes-bdclr: var(--clr-darkyellow);
 
+	--disabled-bgclr: var(--clr-gray);
+	--disabled-txclr: var(--clr-gray-lt);
+	--disabled-bdclr: var(--clr-gray-dk);
+
 	--active-bdclr: var(--clr-black);
 
 	display: flex;
@@ -343,17 +364,17 @@ INTERFACE
 }
 
 .interface__btn{
-	--btn-txclr: var(--clr-white);
-	--btn-bgclr: var(--clr-gray-dk);
-	--btn-bdclr: var(--clr-gray);
+	--btn-txclr: var(--clr-magenta);
+	--btn-bgclr: var(--clr-lightbrown);
+	--btn-bdclr: var(--clr-brown);
 
 	aspect-ratio: 1;
 }
 
 .selected{
-	--btn-txclr: var(--clr-gray-dk);
-	--btn-bgclr: var(--clr-white);
-	--btn-bdclr: var(--clr-gray);
+	--btn-txclr: var(--clr-white-lt);
+	--btn-bgclr: var(--clr-magenta);
+	--btn-bdclr: var(--clr-magenta);
 }
 
 .editing{
@@ -402,6 +423,13 @@ INTERFACE
 .active{
 	--btn-bdclr: var(--active-bdclr);
 }
+
+.disabled{ 
+	background-color: var(--disabled-bdclr);
+	pointer-events: none;
+}
+.disabled .notes__group{ background-color: var(--disabled-bgclr); }
+.disabled .btn{ --btn-txclr: var(--disabled-txclr); }
 
 /*========================================
 DIALOG
