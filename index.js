@@ -139,14 +139,24 @@ function selectCell(cell){
 	const COL = cell.dataset.col
 	//if edit on
 	if (!op) return //None
-	if (isNaN(op)){ //Icons
+
+	if (op === 'Delete'){ //Delete
+		setIcon(cell.querySelector('use'))
+		cell.querySelector('.js-notes').textContent = ""
+		processOrder(COL)
+	}
+	else if (isNaN(op)){ //Icons
 		const Icon = cell.querySelector('use')
-		if (op === 'check') setIcon(Icon, 'Check', 'icon--green')
-		if (op === 'x') setIcon(Icon, 'X', 'icon--red')
-		if (op === '?') setIcon(Icon, '?')
-		if (op === '!') setIcon(Icon, '!')
-		if (op === 'delete') setIcon(Icon)
-	} else{ //Numbers
+		let code = Icon.href.baseVal.split('#')[1]
+		if (op === code) setIcon(Icon) //Delete icon when tapped again
+		else{
+			let style = ''
+			if (op === 'Check') style = 'icon--green'
+			if (op === 'X') style = 'icon--red'
+			setIcon(Icon, op, style)
+		}
+	}
+	else{ //Numbers
 		const Notes = cell.querySelector('.js-notes')
 		
 		const Note = Notes.querySelector(`[data-note="${op}"]`)
