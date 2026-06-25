@@ -48,8 +48,12 @@ let rooms = [
 	'Ballroom', 'Billiard Room', 'Conservatory','Dining Room',
 	'Hall', 'Kitchen', 'Library', 'Lounge', 'Study']
 let players = []
+let DB = {}
 
 window.addEventListener('load',() => {
+	DB = getData() ?? {'players':[],'rows':{},'cells':{}}
+	players = DB.players
+
 	renderRows('suspects', suspects)
 	renderRows('weapons', weapons)
 	renderRows('rooms', rooms)
@@ -57,6 +61,35 @@ window.addEventListener('load',() => {
 	forceCSS()
 })
 
+/**--SETTERS-- */
+function setRow(cell, value){
+	const CLS = value === 's'? 'cell--strike' : 'cell--circle'
+	const OTH = value === 's'? 'cell--circle' : 'cell--strike'
+	
+	if(cell.classList.contains(CLS)){//Remove
+		cell.classList.remove(CLS)
+		return ''
+	}
+	else{//Add
+		cell.classList.remove(OTH)//Remove other if exist
+		cell.classList.add(CLS)
+		return value
+	}
+}
+
+function setDBCell(info, index, value = ''){
+	const [INIT, CELL] = info
+	if(INIT) return
+
+	if (index === undefined) DB.cells[CELL] = []
+	else{
+		if(!DB.cells[CELL]) DB.cells[CELL] = []
+		DB.cells[CELL][index] = value
+	}
+	setData(DB)
+}
+
+/**--RENDER-- */
 function renderRows(id, list){
 	const Grid = document.getElementById(id)
 	
@@ -66,13 +99,20 @@ function renderRows(id, list){
 		const Name = createDiv(Row, 'cell cell--name')
 		Name.addEventListener('click', () => selectRow(Row, Name))
 		createTxt(Name, 'div', 'cell__title', item)
+
+		if(DB.rows[Row.id]) setRow(Name, DB.rows[Row.id])
+
 		for (let i = 0; i < 6; i++){
-			const Cell = createDiv(Row, 'cell', {'data-col':i})
+			const Cell = createDiv(Row, 'cell', {'data-row':Row.id, 'data-col':i})
 			Cell.addEventListener('click', () => selectCell(Cell))
 
 			const Block = createDiv(Cell, 'cell__block')
 			createIcon(Block)
 			const Notes = createDiv(Block, 'block__notes js-notes')
+
+			DB.cells[Row.id+'-'+i]?.forEach(action => {
+				if(action) setCell(Cell, action, true)
+			})
 		}
 	})
 }
@@ -119,6 +159,8 @@ function handleForm(form){
 	const data = Array.from(formData.values());
 
 	players = data.sort((a, b) => (a === '') - (b === ''));//Move empty spots
+	DB.players = players
+	setData(DB)
 
 	renderPlayers()
 	document.getElementById('edit-players').close();
@@ -189,9 +231,8 @@ function selectControl(btn, code){
 function selectRow(row, cell){
 	if (control === '') highlightRow(row)
 	else{
-		if(control === 's') cell.classList.toggle('cell--strike')
-		else if(control === 'c') cell.classList.toggle('cell--circle')
-		
+		DB.rows[row.id] = setRow(cell, control)
+		setData(DB)
 		if (!edit) selectControl(null, control)//Clear control
 	}
 }
@@ -200,31 +241,42 @@ function selectCell(cell){
 	edit ? setCell(cell, op) : highlightCell(cell)
 }
 
-function setCell(cell, action){
+function setCell(cell, action, init){
 	if (!action) return //None
 	const COL = cell.dataset.col
+	const INFO = [init, cell.dataset.row+'-'+COL]
 
 	if (action === 'Delete'){ //Delete
 		setIcon(cell.querySelector('use'))
 		cell.querySelector('.js-notes').textContent = ""
+		setDBCell(INFO)
 		processOrder(COL)
 	}
 	else if (isNaN(action)){ //Icons
 		const Icon = cell.querySelector('use')
 		let code = Icon.href.baseVal.split('#')[1]
-		if (action === code) setIcon(Icon) //Delete icon when tapped again
+		if (action === code){//Delete icon when tapped again
+			setIcon(Icon)
+			setDBCell(INFO, 0)
+		}
 		else{
 			let style = ''
 			if (action === 'Check') style = 'icon--green'
 			if (action === 'X') style = 'icon--red'
 			setIcon(Icon, action, style)
+			setDBCell(INFO, 0, action)
 		}
 	} else{ //Numbers
 		const Notes = cell.querySelector('.js-notes')
 		
 		const Note = Notes.querySelector(`[data-note="${action}"]`)
-		if(Note) Note.remove()
-		else createTxt(Notes, 'div', '', action, {'data-note':action})
+		if(Note){
+			Note.remove()
+			setDBCell(INFO, action)
+		} else{
+			createTxt(Notes, 'div', '', action, {'data-note':action})
+			setDBCell(INFO, action, action)
+		}
 		
 		processOrder(COL)
 	}
