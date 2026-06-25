@@ -471,3 +471,50 @@ dialog::backdrop{
 	padding: 0.5em;
 	margin-top: 1em;
 }
+
+/*========================================
+RESET
+*/
+
+.btn--reset{
+	--btn-txclr: var(--clr-black-dk);
+	--btn-bgclr: var(--clr-red);
+	--btn-bdclr: var(--clr-black-dk);
+	
+	font-size: 1.6em;
+	
+	position: absolute;
+	margin: -1.6em;
+	padding: 0.1em;
+	border-radius: 25%;
+}
+
+.reset{
+	--reset-bgclr: var(--clr-lightbrown);
+	--reset-bdclr: var(--clr-red);
+
+	--reset-btn-bgclr: var(--clr-black);
+	--reset-btn-txclr: var(--clr-red);
+
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	padding: 3em;
+	gap: 2em;
+	border-radius: 0.5em;
+	border: 0.4em solid var(--reset-bdclr);
+	background-color: var(--reset-bgclr);
+}
+
+.reset__btn{
+	--btn-txclr: var(--reset-btn-txclr);
+	--btn-bgclr: var(--reset-btn-bgclr);
+	
+	font-size: 1.6em;
+	padding: 0.5em 1em;
+	font-weight: bolder;
+}
+
+.reset__btn:last-child{
+	--btn-txclr: var(--reset-btn-bgclr);
+	--btn-bgclr: var(--reset-btn-txclr);
+}

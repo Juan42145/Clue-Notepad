@@ -13,6 +13,9 @@
 <body>
 	<main>
 		<div class="clipboard">
+			<button class="btn btn--reset" onclick="openReset()">
+				<svg class="icon"><use href="Assets/sprites.svg#Reset"/></svg>
+			</button>
 			<img class="clip clip--bg" src="Assets/Clip BG.png">
 			<div class="paper">
 				<section class="section">
@@ -102,6 +105,13 @@
 			<input class="menu__input" type="text" maxlength="3" name="6" id="p6" placeholder="Player 6 Initials">
 			<button class="btn menu__submit" type="submit">Submit</button>
 		</form>
+	</dialog>
+
+	<dialog id="reset" onclick="this.close()">
+		<div class="reset" onclick="event.stopPropagation()">
+			<button class="btn reset__btn" onclick="handleReset(false)">No</button>
+			<button class="btn reset__btn" onclick="handleReset(true)">Reset</button>
+		</div>
 	</dialog>
 </body>
 </html>

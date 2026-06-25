@@ -124,6 +124,20 @@ function handleForm(form){
 	document.getElementById('edit-players').close();
 }
 
+/**--RESET-- */
+function openReset(){
+	document.getElementById('reset').showModal();
+}
+
+function handleReset(isReset){
+	if(isReset){
+		reset();
+		window.location.reload()
+	} else{
+		document.getElementById('reset').close();
+	}
+}
+
 /**--NOTES-- */
 let op = '', control = ''
 let edit = false, curCell = null;
